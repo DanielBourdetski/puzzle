@@ -14,7 +14,7 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <div className="canvas-view">
       <GameCanvas />
     </div>
   );
