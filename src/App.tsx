@@ -4,7 +4,7 @@ import GameCanvas from './components/GameCanvas';
 
 function App() {
   return (
-    <div>
+    <div className="canvas-view">
       <GameCanvas />
     </div>
   );

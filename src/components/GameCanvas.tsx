@@ -5,15 +5,10 @@ const GameCanvas = () => {
   const ref = useRef(null);
 
   useEffect(() => {
-    const gl: WebGL2RenderingContext = ref.current.getContext('webgl2');
-
-    gl.clearColor(1.0, 0.0, 1.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
     service.loadService(ref.current);
   }, []);
 
-  return <canvas ref={ref}></canvas>;
+  return <canvas ref={ref} style={{width:"100%", height:"100%"}}></canvas>;
 };
 
 export default GameCanvas;
