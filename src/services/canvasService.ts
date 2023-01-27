@@ -97,6 +97,9 @@ export function loadService(c: HTMLCanvasElement): void {
 
 function loop(): void {
 
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight + 1;
+
   draw();
 
   requestAnimationFrame(loop);
