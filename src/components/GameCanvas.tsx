@@ -8,7 +8,7 @@ const GameCanvas = () => {
     service.loadService(ref.current);
   }, []);
 
-  return <canvas ref={ref} style={{width:"100%", height:"100%"}}></canvas>;
+  return <canvas ref={ref} style={{width:"100%", height:"100%"}} ></canvas>;
 };
 
 export default GameCanvas;
