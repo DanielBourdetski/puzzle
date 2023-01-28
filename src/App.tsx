@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react';
 import './App.css';
 import GameCanvas from './components/GameCanvas';
-import { useDispatch } from 'react-redux'
-import { socketActions } from './store/store';
-import { io } from 'socket.io-client';
-
+import Main from './components/Main';
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(socketActions.setSocket(io('http://localhost:3001')))
-  }, [])
-
-  return (
-    <div className="canvas-view">
-      <GameCanvas />
-    </div>
-  );
-}
+	return (
+		<div className='w-full h-full'>
+			<GameCanvas />
+			{/* all content is in <Main />, canvas element may not update as it will disturb the game rendering */}
+			<Main />
+		</div>
+	);
+};
 
 export default App;

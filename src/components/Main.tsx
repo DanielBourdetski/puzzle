@@ -1,0 +1,29 @@
+import { useEffect, useState } from 'react';
+import localstorageService from '../services/localstorageService';
+import socketService from '../services/socketService';
+import NewUserModal from './modals/NewUserModal';
+import Menu from './UI/Menu';
+import UI from './UI/UI';
+
+const Main = () => {
+	const [isNewUser, setNewUser] = useState(false);
+
+	useEffect(() => {
+		const userData = localstorageService.getUserData();
+
+		if (!userData) return setNewUser(true);
+
+		// ! continue messing around with this until this works
+		socketService.connectClient(userData.id);
+	}, []);
+
+	return (
+		<div className='fixed top-0 left-0 w-screen h-screen flex flex-col justify-center items-center'>
+			<UI />
+			<Menu />
+			{isNewUser && <NewUserModal handleClose={() => setNewUser(false)} />}
+		</div>
+	);
+};
+
+export default Main;
