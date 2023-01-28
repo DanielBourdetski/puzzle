@@ -7,14 +7,14 @@ import UI from './UI/UI';
 
 const Main = () => {
 	const [isNewUser, setNewUser] = useState(false);
+	const [isHostFormOpen, setHostFormOpen] = useState(false);
 
 	useEffect(() => {
-		const userData = localstorageService.getUserData();
+		const username = localstorageService.getUserData();
 
-		if (!userData) return setNewUser(true);
+		if (!username) return setNewUser(true);
 
-		// ! continue messing around with this until this works
-		socketService.connectClient(userData.id);
+		socketService.connectClient(username);
 	}, []);
 
 	return (

@@ -5,7 +5,12 @@ import localstorageService from './localstorageService';
 const socket = io('http://localhost:3001');
 
 export const connectClient = (name: string) => {
-	socket.emit('user:create', name, () => {
+	console.log('emitting');
+
+	socket.emit('user:connect', name, (res: { status: string }) => {
+		if (res.status === 'failed')
+			return console.log('Some went wrong. Please reload and try again!');
+
 		localstorageService.saveUserData(name);
 	});
 };

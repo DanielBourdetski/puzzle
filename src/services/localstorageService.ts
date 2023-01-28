@@ -1,6 +1,6 @@
-import { UserData } from '../../commonTypes';
-
 export const saveUserData = (name: string) => {
+	console.log(name);
+
 	localStorage.setItem('user', JSON.stringify(name));
 };
 
