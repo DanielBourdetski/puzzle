@@ -4,7 +4,7 @@ export const saveUserData = (name: string) => {
 	localStorage.setItem('user', JSON.stringify(name));
 };
 
-export const getUserData = () => JSON.parse(localStorage.getItem('user'));
+export const getUserData = (): string => JSON.parse(localStorage.getItem('user'));
 
 export default {
 	saveUserData,

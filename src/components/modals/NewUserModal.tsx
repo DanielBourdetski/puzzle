@@ -9,13 +9,15 @@ const NewUserModal = ({ handleClose }) => {
 
 	const onNameSubmit = e => {
 		e.preventDefault();
+		console.log(name);
+		
 
 		socketService.connectClient(name);
 		handleClose();
 	};
 
 	return (
-		<Modal handleClose={handleClose}>
+		<Modal handleClose={handleClose} closeOnSubmitOnly>
 			<form
 				onSubmit={onNameSubmit}
 				className='w-full h-full flex flex-col items-center justify-center'>
