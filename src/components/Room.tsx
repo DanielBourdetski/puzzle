@@ -4,16 +4,17 @@ import apiService from "../services/apiService";
 
 const Room = () => {
   const [roomData, setRoomData] = useState<{
-    roomName: string;
+    name: string;
     image: { data: any; type: string };
-  }>({ roomName: "", image: { data: "", type: "" } });
-  const { roomName } = useParams();
+    id: string;
+    playerCounter: number;
+  }>({ name: "", image: { data: "", type: "" }, id: "", playerCounter: 0 });
 
-  console.log(roomData);
+  const { roomId: id } = useParams();
 
   useEffect(() => {
     const fetchRoomData = async () => {
-      const fetchedRoomData = await apiService.getRoomData(roomName);
+      const fetchedRoomData = await apiService.getRoomData(id);
       setRoomData(fetchedRoomData);
     };
 
@@ -24,15 +25,22 @@ const Room = () => {
 
   return (
     <div className="w-full h-full flex justify-center items-center">
-      <div className="w-2/3 h-1/4 bg-blue-600 bg-opacity-30 backdrop-blur-md rounded-lg flex flex-col justify-center items-center">
-        <span>room name: {roomData.roomName}</span>
-        <span>
-          data:{" "}
+      <div className="w-2/3 h-1/4 bg-gradient-to-tr from-blue-500 to-cyan-400 bg-opacity-30 backdrop-blur-md rounded-lg flex flex-col justify-center items-center">
+        <div>
+          <span className="font-bold">room name:</span> {roomData.name}
+        </div>
+        <div>
+          <span className="font-bold">room id:</span> {roomData.id}
+        </div>
+        <div>
+          <span className="font-bold">image data:</span>{" "}
           <button className="px-1 border rounded" onClick={logImageData}>
-            click to log data
+            log data
           </button>
-        </span>
-        <span>type: {roomData.image.type}</span>
+        </div>
+        <div>
+          <span className="font-bold">type:</span> {roomData.image.type}
+        </div>
       </div>
     </div>
   );
