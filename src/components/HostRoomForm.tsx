@@ -11,12 +11,15 @@ const HostRoomForm = () => {
     type: ""
   });
 
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
   const onFileChange = (e) => {
     const imageType = e.target.files[0].type;
     const imageData = e.target.files[0];
 
+    // covert imageData into a src string that <img /> accepts
     const reader = new FileReader();
 
     reader.addEventListener('load', function() {
@@ -47,6 +50,8 @@ const HostRoomForm = () => {
       });
 
       img.src = reader.result as string;
+
+      setImageSrc(reader.result as string);
     });
     
     reader.readAsDataURL(imageData);
@@ -60,19 +65,19 @@ const HostRoomForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const roomData = { roomName, ...image };
+    const roomData = { name: roomName, ...image };
 
     // TODO add validation
 
-    socketService.hostRoom(roomData);
+    const navigateToNewRoom = (id: string) => navigate(`/room/${id}`);
 
-    // TODO navigate to puzzle room
+    socketService.hostRoom(roomData, navigateToNewRoom);
   };
 
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col justify-center items-center p-6"
     >
       <h3 className="text-xl font-bold mb-2">Host a room</h3>
       <div className="flex flex-col items-center w-full mb-4">
@@ -85,7 +90,7 @@ const HostRoomForm = () => {
         />
       </div>
 
-      <div className="flex justify-center w-full">
+      <div className="flex flex-col items-center gap-y-4 justify-center w-full">
         <label
           htmlFor="image"
           className="rounded-full border border-slate-600 bg-cyan-50 bg-opacity-10 min-w-[20%] max-w-[80%] flex items-center pr-1"
@@ -105,6 +110,14 @@ const HostRoomForm = () => {
           "
           />
         </label>
+
+        {imageSrc && (
+          <img
+            className="max-w-[13em] max-h-[26em] border-8 border-slate-700 border-opacity-75 rounded"
+            src={imageSrc}
+            alt="preview"
+          />
+        )}
       </div>
 
       <button
