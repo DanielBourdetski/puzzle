@@ -7,24 +7,20 @@ import UI from "./UI/UI";
 import { Routes, Route } from "react-router-dom";
 import HostRoomForm from "./HostRoomForm";
 import Rooms from "./Rooms";
+import BaseModal from "./modals/BaseModal";
 
-const Main = () => {
+const Main: React.FC<{ username: string }> = ({ username }) => {
   const [isNewUser, setNewUser] = useState(false);
-  const [isHostFormOpen, setHostFormOpen] = useState(false);
 
   useEffect(() => {
-    const username = localstorageService.getUserData();
-
-    if (!username) return setNewUser(true);
-
-    socketService.connectClient(username);
-  }, []);
+    setNewUser(!username);
+  }, [username]);
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen flex flex-col justify-center items-center">
-      {/* <UI /> */}
-
-      <div className="min-h-[33%] min-w-[33%] bg-cyan-300 bg-opacity-30 rounded-xl backdrop-blur-md flex flex-col justify-center items-center">
+    <BaseModal handleClose={() => {}}>
+      <div
+        className={`min-h-[33%] min-w-[33%] max-h-[90%] flex flex-col justify-center items-center`}
+      >
         <Routes>
           <Route path="/" element={<Menu />} />
           <Route path="/host-room" element={<HostRoomForm />} />
@@ -33,7 +29,7 @@ const Main = () => {
       </div>
 
       {isNewUser && <NewUserModal handleClose={() => setNewUser(false)} />}
-    </div>
+    </BaseModal>
   );
 };
 
