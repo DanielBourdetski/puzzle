@@ -1,12 +1,14 @@
+import { read } from "fs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loadPuzzle } from "../services/canvasService";
 import socketService from "../services/socketService";
 
 const HostRoomForm = () => {
   const [roomName, setRoomName] = useState("");
-  const [image, setImage] = useState<{ imageData; type: string }>({
+  const [image, setImage] = useState<{ imageData; type: string}>({
     imageData: "",
-    type: "",
+    type: ""
   });
 
   const navigate = useNavigate();
@@ -15,7 +17,42 @@ const HostRoomForm = () => {
     const imageType = e.target.files[0].type;
     const imageData = e.target.files[0];
 
+    const reader = new FileReader();
+
+    reader.addEventListener('load', function() {
+      const img = new Image();
+
+      img.addEventListener('load', function() {
+        console.log(img.width, img.height);
+
+        loadPuzzle({
+          image: {
+            data : img,
+            size : {x: img.width, y : img.height}
+          },
+          seed : 0,
+          size : {x : 4 , y : 4},
+          piecePositions : [
+            {x : 0, y : 0}, {x : 8, y : 0},
+            {x : 1, y : 0}, {x : 9, y : 0},
+            {x : 2, y : 0}, {x : 10, y : 0},
+            {x : 3, y : 0}, {x : 11, y : 0},
+            {x : 4, y : 0}, {x : 12, y : 0},
+            {x : 5, y : 0}, {x : 13, y : 0},
+            {x : 6, y : 0}, {x : 14, y : 0},
+            {x : 7, y : 0}, {x : 15, y : 0},
+          ]
+        })
+
+      });
+
+      img.src = reader.result as string;
+    });
+    
+    reader.readAsDataURL(imageData);
+
     setImage({ imageData, type: imageType });
+    
   };
 
   const onNameChange = (e) => setRoomName(e.target.value);
