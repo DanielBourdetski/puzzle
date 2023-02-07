@@ -11,14 +11,22 @@ export const connectClient = (name: string) => {
   });
 };
 
-export const hostRoom = (roomData: {
-  roomName: string;
-  imageData: any;
-  type: string;
-}) =>
-  socket.emit("room:host", roomData, (res: { status: string }) =>
-    console.log(res.status)
+export const hostRoom = (
+  roomData: {
+    name: string;
+    imageData: any;
+    type: string;
+  },
+  navigateToNewRoom: Function
+) => {
+  socket.emit(
+    "room:host",
+    roomData,
+    (res: { status: "success" | "fail"; id: string }) => {
+      if (res.status === "success") navigateToNewRoom(res.id);
+    }
   );
+};
 
 export const joinRoom = (roomName: string) => {
   socket.emit("room:join", roomName, (res) => console.log(res.status));
